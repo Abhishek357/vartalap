@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const puppeteer = require('puppeteer');
 const template = require('./template');
-// const fs = require('fs');
+const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -15,21 +15,13 @@ const printPdf = async (req,res) => {
     try{
         console.log('Starting: Generating PDF Process, Kindly wait ..');
         /** Launch a headleass browser */
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({ headless: true });
         /* 1- Ccreate a newPage() object. It is created in default browser context. */
         const page = await browser.newPage();
         /* 2- Will open our generated `.html` file in the new Page instance. */
         await page.setContent(template(req.body))
 
-        let pdf = await page.pdf({
-            format: "Tabloid",
-            margin: {
-                top: '0px',
-                right: '0px',
-                bottom: '0px',
-                left: '0px'
-            }
-        });
+        let pdf = await page.pdf({format: "A4"});
 
         /* 4- Cleanup: close browser. */
         await browser.close();
@@ -44,12 +36,8 @@ const printPdf = async (req,res) => {
 const init = async (req,res) => {
 	try {
 		const pdf = await printPdf(req,res);
-		res.set({'Content-Type': 'application/pdf', 'Content-Length': pdf.length})
-        res.send(pdf)
-        // fs.writeFileSync('notes.pdf', pdf);
-        // console.log('Success');
-        // res.sendFile(`${__dirname}/notes.pdf`);
-        // res.json({msg:"Pdf generated successfully"});
+        console.log(typeof(pdf));
+        res.json(pdf);
 
 	} catch (error) {
         console.log('Error generating PDF', error);
@@ -59,12 +47,5 @@ const init = async (req,res) => {
 
 
 app.post('/create-pdf', init);
-
-// app.get('/fetch-pdf', (req,res) => {
-//     res.sendFile(`${__dirname}/notes.pdf`);
-// });
-
-
-
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
