@@ -50,7 +50,7 @@ module.exports = (meetingData) => {
 </head>
 <body class="p-4">
     <h1 class="text-3xl font-bold text-center text-indigo-600">
-        Meeting Notes
+        ${meetingData.title}
     </h1>
     <p class="text-right font-bold">
         - ${today.toLocaleDateString("en-US", options)}
