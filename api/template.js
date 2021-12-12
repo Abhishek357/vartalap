@@ -29,6 +29,15 @@ module.exports = (meetingData) => {
   else followUpsString += "</ul>";
   console.log(followUpsString);
 
+  let questionsString = `<ul class="list-disc ml-4">`;
+  meetingData.questions.forEach(item => {
+    questionsString += `<li>${item.text}</li>`
+  })
+  
+  if(questionsString === `<ul class="list-disc ml-4">`) questionsString = "<p> Woohoo! No Questions </p>";
+  else questionsString += "</ul>";
+  console.log(questionsString);
+
   return `
     <!DOCTYPE html>
 <html lang="en">
@@ -97,9 +106,9 @@ module.exports = (meetingData) => {
             Questions:
         </h2>
         <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium voluptatem quisquam qui omnis dignissimos ullam accusamus ducimus similique. Odio voluptatibus rem, voluptas inventore libero iste excepturi placeat eligendi et doloribus?
+            ${questionsString}
         </p>
-    </div>    
+    </div>  
 
     <div class="mt-4">
         <h2 class="text-xl font-bold text-indigo-500">
