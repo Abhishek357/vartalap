@@ -14,9 +14,20 @@ module.exports = (meetingData) => {
   meetingData.actionItems.forEach(item => {
     actionItemsString += `<li>${item.text}</li>`
   })
+
   if(actionItemsString === `<ul class="list-disc ml-4">`) actionItemsString = "<p> Woohoo! No Action Items </p>";
   else actionItemsString += "</ul>";
   console.log(actionItemsString);
+
+
+  let followUpsString = `<ul class="list-disc ml-4">`;
+  meetingData.followUps.forEach(item => {
+    followUpsString += `<li>${item.text}</li>`
+  })
+  
+  if(followUpsString === `<ul class="list-disc ml-4">`) followUpsString = "<p> Woohoo! No Follow ups </p>";
+  else followUpsString += "</ul>";
+  console.log(followUpsString);
 
   return `
     <!DOCTYPE html>
@@ -77,7 +88,7 @@ module.exports = (meetingData) => {
             Follow-Ups:
         </h2>
         <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium voluptatem quisquam qui omnis dignissimos ullam accusamus ducimus similique. Odio voluptatibus rem, voluptas inventore libero iste excepturi placeat eligendi et doloribus?
+            ${followUpsString}
         </p>
     </div>
 

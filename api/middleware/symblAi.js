@@ -60,22 +60,33 @@ const getInsights = async (req, res, next) => {
                 json: true
             }
         );
-        let followUps = "";
-        followUpsRes.data.followUps.forEach(function (arrayItem) {
-            followUps += (arrayItem.text + ", ");
-            // followUps = followUps.concat(arrayItem.followUps.text, ", ");
-        });
-        console.log(followUps)
-        req.insight.followUps = followUps        
+        req.insight.followUps = followUpsRes.data.followUps;        
     } catch (error) {
         console.log(error);
     }
-    
+
+    try {
+        const questionsRes = await axios.get(
+            `https://api.symbl.ai/v1/conversations/${req.body.conversationId}/questions`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${process.env.AUTH_TOKEN}`
+                  },
+                json: true
+            }
+        );
+        req.insight.questions = questionsRes.data.questions;        
+    } catch (error) {
+        console.log(error);
+    }
+
     console.log("req.insight => " + req.insight);
     console.log("req.insight.topic => " + req.insight.topic);
     console.log("req.insight.messages => " + req.insight.messages);
     console.log("req.insight.actionItems => " + req.insight.actionItems);
     console.log("req.insight.followUps => " + req.insight.followUps);
+    console.log("req.insight.followUps => " + req.insight.questions);
+
     next();
 };
 
