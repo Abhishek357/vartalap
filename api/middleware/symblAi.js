@@ -19,17 +19,23 @@ const getInsights = async (req, res, next) => {
 
     try {
         const messagesRes = await axios.get(
-            `https://api.symbl.ai/v1/conversations/${req.body.conversationId}/messages`,{
+            `https://api.symbl.ai/v1/conversations/${req.body.conversationId}/messages?sentiment=true`,{
                 headers: {
                     'Authorization': `Bearer ${req.body.accessToken}`
                   },
                 json: true
         });
         let messages = "";
+        let polarity = 0;
+
         messagesRes.data.messages.forEach(function (arrayItem) {
             messages += (arrayItem.text + " ");
+            polarity += parseFloat(arrayItem.sentiment.polarity.score);
         });
+        polarity /= messagesRes.data.messages.length;
         console.log("messages =>", messages)
+        console.log("polarity =>", polarity);
+        req.insight.polarity = polarity
         req.insight.messages = messages        
     } catch (error) {
         console.log(error);

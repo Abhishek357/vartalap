@@ -13,6 +13,7 @@ require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(express.static('public'));
 
 // routes 
 const printPdf = async (req,res) => { 

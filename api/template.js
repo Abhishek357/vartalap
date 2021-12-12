@@ -38,6 +38,10 @@ module.exports = (meetingData) => {
   else questionsString += "</ul>";
   console.log(questionsString);
 
+  let img = 'http://localhost:5000/normal.png';
+  if(polarity < -0.25) img = 'http://localhost:5000/angry.png'
+  else if(polarity > 0.25) img = 'http://localhost:5000/happy.png'
+  
   return `
     <!DOCTYPE html>
 <html lang="en">
@@ -78,9 +82,7 @@ module.exports = (meetingData) => {
         <h2 class="text-xl font-bold text-indigo-500">
             Sentiment Analysis:
         </h2>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium voluptatem quisquam qui omnis dignissimos ullam accusamus ducimus similique. Odio voluptatibus rem, voluptas inventore libero iste excepturi placeat eligendi et doloribus?
-        </p>
+        <img src=${img} />
     </div>
 
     <div class="mt-4">
