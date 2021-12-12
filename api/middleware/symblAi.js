@@ -38,7 +38,7 @@ const getInsights = async (req, res, next) => {
         let messages = "";
         // console.log(topicRes.data);
         messagesRes.data.messages.forEach(function (arrayItem) {
-            messages += (arrayItem.text + ", ");
+            messages += (arrayItem.text + " ");
             // topic = topic.concat(arrayItem.topics.text, ", ");
         });
         console.log("messages =>", messages)
