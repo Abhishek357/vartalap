@@ -13,15 +13,8 @@ const getInsights = async (req, res, next) => {
                   },
                 json: true
         });
-        let topic = "";
-        // console.log(topicRes.data);
-        topicRes.data.topics.forEach(function (arrayItem) {
-            topic += (arrayItem.text + ", ");
-            // topic = topic.concat(arrayItem.topics.text, ", ");
-        });
-        // console.log(topic)
         req.insight = {};
-        req.insight.topic = topic        
+        req.insight.topic = topicRes.data.topics;        
     } catch (error) {
         console.log(error);
     }

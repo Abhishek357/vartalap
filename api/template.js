@@ -1,6 +1,14 @@
 module.exports = (meetingData) => {
-  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  var today  = new Date();
+  let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  let today  = new Date();
+
+  let topicsString = "";
+  meetingData.topic.forEach(topic => {
+    topicsString += `<button class="m-2 px-2 py-1 bg-indigo-600 rounded-lg text-white font-medium">${topic.text}</button>`
+  })
+  if(topicsString === "") topicsString = "<p> No Topics Found </p>"
+  console.log(topicsString);
+
 
   return `
     <!DOCTYPE html>
@@ -16,17 +24,17 @@ module.exports = (meetingData) => {
     <h1 class="text-3xl font-bold text-center text-indigo-600">
         Meeting Notes
     </h1>
-    <p class="text-right">
+    <p class="text-right font-bold">
         - ${today.toLocaleDateString("en-US", options)}
     </p>
 
     <div class="mt-4">
-        <h2 class="text-xl font-bold text-indigo-500">
-            Topic of Discussion:
-        </h2>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium voluptatem quisquam qui omnis dignissimos ullam accusamus ducimus similique. Odio voluptatibus rem, voluptas inventore libero iste excepturi placeat eligendi et doloribus?
-        </p>
+    <h2 class="text-xl font-bold text-indigo-500">
+        Topic of Discussion:
+    </h2>
+    <div class="flex-1" >
+        ${topicsString}
+    </div>
     </div>
     
     <div class="mt-4">
