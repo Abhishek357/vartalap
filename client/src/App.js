@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 
 function App() {
@@ -11,8 +11,19 @@ function App() {
   const [ws, setWs] = useState();
   const [stream, setStream] = useState();
   const [conversationId, setConversationId] = useState();
+  const [accessToken, setaccessToken] = useState();
 
-
+  const getToken = async () => {
+    const res = await axios.get(`http://localhost:5000/getToken`);
+    console.log(res)
+    setaccessToken(res.data.accessToken)
+   };
+   
+   useEffect(() => {
+    // Runs ONCE after initial rendering
+    getToken();
+   }, []);
+  
   function getPDF() {
     return axios.post(`http://localhost:5000/create-pdf`, {
       responseType: "arraybuffer",
@@ -43,8 +54,6 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  const accessToken =
-    "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlFVUTRNemhDUVVWQk1rTkJNemszUTBNMlFVVTRRekkyUmpWQ056VTJRelUxUTBVeE5EZzFNUSJ9.eyJodHRwczovL3BsYXRmb3JtLnN5bWJsLmFpL3VzZXJJZCI6IjU4MTQzNzAyODMwMjg0ODAiLCJpc3MiOiJodHRwczovL2RpcmVjdC1wbGF0Zm9ybS5hdXRoMC5jb20vIiwic3ViIjoiczFMQ1BaNVNQQ2NSaUZ3ZkNUOGxQMEdRRWxDVmJXYkJAY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vcGxhdGZvcm0ucmFtbWVyLmFpIiwiaWF0IjoxNjM5MjI1MTU5LCJleHAiOjE2MzkzMTE1NTksImF6cCI6InMxTENQWjVTUENjUmlGd2ZDVDhsUDBHUUVsQ1ZiV2JCIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.aJ4f_Z2btfhv1jrRyzPJrpA6dSdFBuXUygA55wPYnFPP_pl9g-09AnG8Wll0skEa4_5vCFnyRQRLNeCOw8U5QpmO8LvCEhtKif08k7E-voDMJGJC8VrlGt360FzBRNfzkFuLFEpHcVO5hs0p6158VITjLomCHhxiLC2AkRy1pLSQI7H1fA3oEaI3Cc0y_4Fl58w7CJcTAoKZLVrOVK6xjJDXzvw6i9xUgCIx83Vd9YrhqjlrIki7hQs7--gridAgUjFlIkTZB3f8rECZMZrUX63G2FOiTPQL3Tue7iJDfBWBNXKeB7uX7qKenHYVZ5zhcjH_jpp-7SsGO60rzffk_g";
   const uniqueMeetingId = btoa("drunkuser@example.com");
   const symblEndpoint = `wss://api.symbl.ai/v1/realtime/insights/${uniqueMeetingId}?access_token=${accessToken}`;
 
