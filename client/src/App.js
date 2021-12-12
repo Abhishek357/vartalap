@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 
 function App() {
   /**
@@ -12,19 +12,24 @@ function App() {
   const [stream, setStream] = useState();
   const [conversationId, setConversationId] = useState();
   const [accessToken, setaccessToken] = useState();
-  const [title, setTitle] = useState("Meeting Notes");
+  const [title, setTitle] = useState();
+  const [phase, setPhase] = useState(1);
+  // 1 -> landed
+  // 2 -> recording
+  // 3 -> downloading
+  // 4 -> download again
 
   const getToken = async () => {
     const res = await axios.get(`http://localhost:5000/getToken`);
-    console.log(res)
-    setaccessToken(res.data.accessToken)
-   };
-   
-   useEffect(() => {
+    console.log(res);
+    setaccessToken(res.data.accessToken);
+  };
+
+  useEffect(() => {
     // Runs ONCE after initial rendering
     getToken();
-   }, []);
-  
+  }, []);
+
   function getPDF() {
     return axios.post(`http://localhost:5000/create-pdf`, {
       responseType: "arraybuffer",
@@ -33,7 +38,7 @@ function App() {
       },
       conversationId,
       title,
-      accessToken
+      accessToken,
     });
   }
   const savePDF = () => {
@@ -44,15 +49,16 @@ function App() {
         console.log(typeof response.data);
 
         const url = window.URL.createObjectURL(
-          new Blob([new Uint8Array(response.data.data).buffer],{
-            type: 'application/pdf'
-        })
+          new Blob([new Uint8Array(response.data.data).buffer], {
+            type: "application/pdf",
+          })
         );
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", `MeetNotes.pdf`);
+        link.setAttribute("download", `${title}.pdf`);
         document.body.appendChild(link);
         link.click();
+        setPhase(4);
       })
       .catch((err) => console.log(err));
   };
@@ -70,9 +76,9 @@ function App() {
       // You can find the conversationId in event.message.data.conversationId;
       const data = JSON.parse(event.data);
 
-      
       if (data.type === "message" && data.message.hasOwnProperty("data")) {
-        if(!conversationId) setConversationId(data.message.data.conversationId);
+        if (!conversationId)
+          setConversationId(data.message.data.conversationId);
         console.log("conversationId", data.message.data.conversationId);
       }
       if (data.type === "message_response") {
@@ -170,52 +176,66 @@ function App() {
     };
 
     handleSuccess(stream);
-    return {ws,stream};
+    return { ws, stream };
   };
 
   const stopHandler = (e) => {
     e.preventDefault();
     ws.close();
-    stream.getTracks().forEach(function(track) {
+    stream.getTracks().forEach(function (track) {
       track.stop();
     });
-    console.log(title)
+    console.log(title);
     savePDF();
   };
 
   return (
-    
     <div className="App">
       <header className="App-header">
+      <h1 className="text-white text-4xl font-bold p-4">Welcome to Vartalap!</h1> 
         <img src={logo} className="App-logo" alt="logo" />
-
         <div className="mb-3 pt-0">
-          <input type="text" 
-            placeholder="Meeting Notes" className="px-3 py-3 text-black placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full"
+          {phase === 1 && <h1 className="text-white text-2xl font-bold">Click on Start Recording to get started</h1>}
+          {phase === 2 && <h1 className="text-white text-2xl font-bold">Recording in Progress</h1>}
+          {phase === 3 && <h1 className="text-white text-2xl font-bold">Analysing... , Creating... , Downloading...</h1>}
+          {phase === 4 && <h1 className="text-white text-2xl font-bold">If your file has some issues, try downloading it again :)</h1>}
+        
+        </div>
+        <div className="mb-3 pt-0">
+          <input
+            type="text"
+            placeholder="Enter File Name"
+            className="px-3 py-3 text-black placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-
-        <button
-          className="justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          onClick={async (e) => {
-            const newObj = await startHandler(e);
-            setWs(newObj.ws);
-            setStream(newObj.stream);
-
-          }}
-        >
-          Start Recording
-        </button>
-        <button
-          className="justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          onClick={(e) => {
-            stopHandler(e);
-          }}
-        >
-          Stop Recording
-        </button>
+        <div className="flex-1">
+          {phase === 1 && (
+            <button
+              className="justify-center m-1 py-3 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={async (e) => {
+                const newObj = await startHandler(e);
+                setWs(newObj.ws);
+                setStream(newObj.stream);
+                setPhase(2);
+              }}
+            >
+              Start Recording
+            </button>
+          )}
+          {phase !== 1 && (
+            <button
+              className="justify-center m-1 py-3 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={(e) => {
+                stopHandler(e);
+                setPhase(3);
+              }}
+            >
+              {phase === 2 ? "Stop Recording" : "Download Again"}
+            </button>
+          )}
+        </div>
       </header>
     </div>
   );

@@ -87,15 +87,6 @@ module.exports = (meetingData) => {
 
     <div class="mt-4">
         <h2 class="text-xl font-bold text-indigo-500">
-            Summary :
-        </h2>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium voluptatem quisquam qui omnis dignissimos ullam accusamus ducimus similique. Odio voluptatibus rem, voluptas inventore libero iste excepturi placeat eligendi et doloribus?
-        </p>
-    </div>
-
-    <div class="mt-4">
-        <h2 class="text-xl font-bold text-indigo-500">
             Follow-Ups:
         </h2>
         <p>
