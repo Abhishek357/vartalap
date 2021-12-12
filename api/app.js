@@ -26,13 +26,14 @@ const printPdf = async (req,res) => {
         await page.setContent(template(req.insight))
 
         let pdf = await page.pdf({
-            format: "Tabloid",
+            format: "A4",
             margin: {
-                top: '0px',
-                right: '0px',
-                bottom: '0px',
-                left: '0px'
-            }
+                top: '25px',
+                right: '10px',
+                bottom: '25px',
+                left: '10px'
+            },
+            printBackground: true
         });
 
         /* 4- Cleanup: close browser. */
