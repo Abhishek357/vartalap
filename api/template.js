@@ -10,6 +10,14 @@ module.exports = (meetingData) => {
   console.log(topicsString);
 
 
+  let actionItemsString = `<ul class="list-disc ml-4">`;
+  meetingData.actionItems.forEach(item => {
+    actionItemsString += `<li>${item.text}</li>`
+  })
+  if(actionItemsString === `<ul class="list-disc ml-4">`) actionItemsString = "<p> Woohoo! No Action Items </p>";
+  else actionItemsString += "</ul>";
+  console.log(actionItemsString);
+
   return `
     <!DOCTYPE html>
 <html lang="en">
@@ -40,16 +48,9 @@ module.exports = (meetingData) => {
     <div class="mt-4">
         <h2 class="text-xl font-bold text-indigo-500">
             Action Items:
-            <!-- in points -->
-            <ul class="list-disc text-base font-normal text-black ml-4">
-                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, veniam. Dolore, quos autem expedita quibusdam id minima pariatur eius doloremque ducimus odio? Nostrum ab explicabo dignissimos molestiae quaerat. Dolor, ullam.</li>
-                <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, veniam. Dolore, quos autem expedita quibusdam id minima pariatur eius doloremque ducimus odio? Nostrum ab explicabo dignissimos molestiae quaerat. Dolor, ullam.</li>
-            </ul>
-
-            </ul>
         </h2>
         <p>
-            woo hoo No action Items :)
+        ${actionItemsString}
         </p>
     </div>
 
