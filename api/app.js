@@ -3,6 +3,8 @@ const cors = require('cors');
 const puppeteer = require('puppeteer');
 const template = require('./template');
 const { getInsights } = require('./middleware/symblAi');
+const axios = require('axios');
+
 // const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 5000;
@@ -59,6 +61,27 @@ const init = async (req,res) => {
 	}
 };
 
+const getToken = async (req, res) => {
+
+    // console.log(process.env.AUTH_TOKEN);
+    try {
+        const response = await axios.post(
+            'https://api.symbl.ai/oauth2/token:generate',{
+                type: 'application',
+                appId: `${process.env.APP_ID}`,
+                appSecret: `${process.env.APP_SECRET}`,
+                json: true
+        });
+        // console.log(response)
+        // console.log("response.accessToken => " + response.data.accessToken)
+        res.status(200).json({
+            accessToken: response.data.accessToken
+          });
+    } catch (error) {
+        console.log(error);
+    }    
+    
+};
 
 app.post('/create-pdf', getInsights, init);
 
@@ -66,7 +89,7 @@ app.post('/create-pdf', getInsights, init);
 //     res.sendFile(`${__dirname}/notes.pdf`);
 // });
 
-
+app.get('/getToken', getToken);
 
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
