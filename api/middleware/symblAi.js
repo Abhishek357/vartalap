@@ -6,7 +6,7 @@ const getInsights = async (req, res, next) => {
         const topicRes = await axios.get(
             `https://api.symbl.ai/v1/conversations/${req.body.conversationId}/topics`,{
                 headers: {
-                    'Authorization': `Bearer ${process.env.AUTH_TOKEN}`
+                    'Authorization': `Bearer ${req.body.accessToken}`
                   },
                 json: true
         });
@@ -21,7 +21,7 @@ const getInsights = async (req, res, next) => {
         const messagesRes = await axios.get(
             `https://api.symbl.ai/v1/conversations/${req.body.conversationId}/messages`,{
                 headers: {
-                    'Authorization': `Bearer ${process.env.AUTH_TOKEN}`
+                    'Authorization': `Bearer ${req.body.accessToken}`
                   },
                 json: true
         });
@@ -40,7 +40,7 @@ const getInsights = async (req, res, next) => {
             `https://api.symbl.ai/v1/conversations/${req.body.conversationId}/action-items`,
             {
                 headers: {
-                    'Authorization': `Bearer ${process.env.AUTH_TOKEN}`
+                    'Authorization': `Bearer ${req.body.accessToken}`
                   },
                 json: true
             }
@@ -56,7 +56,7 @@ const getInsights = async (req, res, next) => {
             `https://api.symbl.ai/v1/conversations/${req.body.conversationId}/follow-ups`,
             {
                 headers: {
-                    'Authorization': `Bearer ${process.env.AUTH_TOKEN}`
+                    'Authorization': `Bearer ${req.body.accessToken}`
                   },
                 json: true
             }
@@ -71,7 +71,7 @@ const getInsights = async (req, res, next) => {
             `https://api.symbl.ai/v1/conversations/${req.body.conversationId}/questions`,
             {
                 headers: {
-                    'Authorization': `Bearer ${process.env.AUTH_TOKEN}`
+                    'Authorization': `Bearer ${req.body.accessToken}`
                   },
                 json: true
             }

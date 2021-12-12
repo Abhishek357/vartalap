@@ -32,7 +32,8 @@ function App() {
         Accept: "application/pdf",
       },
       conversationId,
-      title
+      title,
+      accessToken
     });
   }
   const savePDF = () => {
