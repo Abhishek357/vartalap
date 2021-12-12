@@ -14,7 +14,7 @@ module.exports = (meetingData) => {
             ${meetingData.actionItems}
         </h1>
         <p class="text-md mt-2">
-            ${meetingData.followUps}
+            ${meetingData.messages}
         </p>
     </body>
     </html>

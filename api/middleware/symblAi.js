@@ -2,6 +2,8 @@
 const axios = require('axios');
 
 const getInsights = async (req, res, next) => {
+
+    
     // console.log(process.env.AUTH_TOKEN);
     try {
         const topicRes = await axios.get(
@@ -17,13 +19,33 @@ const getInsights = async (req, res, next) => {
             topic += (arrayItem.text + ", ");
             // topic = topic.concat(arrayItem.topics.text, ", ");
         });
-        console.log(topic)
+        // console.log(topic)
         req.insight = {};
         req.insight.topic = topic        
     } catch (error) {
         console.log(error);
     }
 
+
+    try {
+        const messagesRes = await axios.get(
+            `https://api.symbl.ai/v1/conversations/${req.body.conversationId}/messages`,{
+                headers: {
+                    'Authorization': `Bearer ${process.env.AUTH_TOKEN}`
+                  },
+                json: true
+        });
+        let messages = "";
+        // console.log(topicRes.data);
+        messagesRes.data.messages.forEach(function (arrayItem) {
+            messages += (arrayItem.text + ", ");
+            // topic = topic.concat(arrayItem.topics.text, ", ");
+        });
+        console.log("messages =>", messages)
+        req.insight.messages = messages        
+    } catch (error) {
+        console.log(error);
+    }
 
     try {
         const actionItemsRes = await axios.get(
@@ -68,7 +90,11 @@ const getInsights = async (req, res, next) => {
     } catch (error) {
         console.log(error);
     }
-    console.log(req.insight);
+    console.log("req.insight => " + req.insight);
+    console.log("req.insight.topic => " + req.insight.topic);
+    console.log("req.insight.messages => " + req.insight.messages);
+    console.log("req.insight.actionItems => " + req.insight.actionItems);
+    console.log("req.insight.followUps => " + req.insight.followUps);
     next();
 };
 

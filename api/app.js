@@ -47,7 +47,7 @@ const init = async (req,res) => {
 	try {
 		const pdf = await printPdf(req,res);
 		res.set({'Content-Type': 'application/pdf', 'Content-Length': pdf.length})
-        res.send(pdf)
+        res.json(pdf)
         // fs.writeFileSync('notes.pdf', pdf);
         // console.log('Success');
         // res.sendFile(`${__dirname}/notes.pdf`);
