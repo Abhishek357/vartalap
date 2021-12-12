@@ -11,11 +11,13 @@ We have product in which college students, Techies can meet, can conduct classes
 Future references. We made the video, audio streaming platform using twilio. Further we streamed this audio using the streaming API provided by the symblai. We establish the websocket connection and get the conversation ID. Ahh the conversation ID is really cool How? continue with me. Using this conversation we can get the transcript, 
 topics, FollowUps, ActionItems, Sentiment Analysis etc buy simply making a get request Isn't it amazing?
 
-But wait a minute GIF
+<p align="center">
+  <img alt="But wait a minute" src="https://c.tenor.com/IJwsfw7ToiQAAAAM/wait-what.gif">
+</p>
 
-How do store it for long term?
+**How do store it for long term?**
 
-We have used pupitier for this purpose and we store the all the analytics data from meeting in a PDF. 
+We have used puppeteer for this purpose and we store the all the analytics data from meeting in a PDF, that you can download using a single click ⚡. 
 
 ## Challenges
 
@@ -54,5 +56,16 @@ We have used pupitier for this purpose and we store the all the analytics data f
 
 
 
-Made with love using
+## Made with ❤️ using
+<p align="center">
+  <img alt="Symbl.ai" src="https://s3.amazonaws.com/challengepost/sponsors/logos/000/023/497/highres/Unknown.png">
+</p>
+<p align="center">
+  <img alt="Twilio" src="https://s3.amazonaws.com/challengepost/sponsors/logos/000/023/494/highres/Twilio_logo_D8D2oky.png">
+</p>
+
+## Special thanks to
+<p align="center">
+  <img alt="Community Classroom" src="https://d1aettbyeyfilo.cloudfront.net/kunalk/23464729_1634815025cY3PNG_logo_copy.webp">
+</p>
 
