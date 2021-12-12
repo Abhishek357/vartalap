@@ -11,7 +11,8 @@ const getInsights = async (req, res, next) => {
                 json: true
         });
         req.insight = {};
-        req.insight.topic = topicRes.data.topics;        
+        req.insight.topic = topicRes.data.topics;
+        req.insight.title = req.body.title;
     } catch (error) {
         console.log(error);
     }
