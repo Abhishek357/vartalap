@@ -45,7 +45,7 @@ function App() {
 
   const accessToken =
     "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlFVUTRNemhDUVVWQk1rTkJNemszUTBNMlFVVTRRekkyUmpWQ056VTJRelUxUTBVeE5EZzFNUSJ9.eyJodHRwczovL3BsYXRmb3JtLnN5bWJsLmFpL3VzZXJJZCI6IjU4MTQzNzAyODMwMjg0ODAiLCJpc3MiOiJodHRwczovL2RpcmVjdC1wbGF0Zm9ybS5hdXRoMC5jb20vIiwic3ViIjoiczFMQ1BaNVNQQ2NSaUZ3ZkNUOGxQMEdRRWxDVmJXYkJAY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vcGxhdGZvcm0ucmFtbWVyLmFpIiwiaWF0IjoxNjM5MjI1MTU5LCJleHAiOjE2MzkzMTE1NTksImF6cCI6InMxTENQWjVTUENjUmlGd2ZDVDhsUDBHUUVsQ1ZiV2JCIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.aJ4f_Z2btfhv1jrRyzPJrpA6dSdFBuXUygA55wPYnFPP_pl9g-09AnG8Wll0skEa4_5vCFnyRQRLNeCOw8U5QpmO8LvCEhtKif08k7E-voDMJGJC8VrlGt360FzBRNfzkFuLFEpHcVO5hs0p6158VITjLomCHhxiLC2AkRy1pLSQI7H1fA3oEaI3Cc0y_4Fl58w7CJcTAoKZLVrOVK6xjJDXzvw6i9xUgCIx83Vd9YrhqjlrIki7hQs7--gridAgUjFlIkTZB3f8rECZMZrUX63G2FOiTPQL3Tue7iJDfBWBNXKeB7uX7qKenHYVZ5zhcjH_jpp-7SsGO60rzffk_g";
-  const uniqueMeetingId = btoa("user@example.com");
+  const uniqueMeetingId = btoa("drunkuser@example.com");
   const symblEndpoint = `wss://api.symbl.ai/v1/realtime/insights/${uniqueMeetingId}?access_token=${accessToken}`;
 
   const startHandler = async (e) => {

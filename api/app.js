@@ -2,16 +2,18 @@ const express = require('express');
 const cors = require('cors');
 const puppeteer = require('puppeteer');
 const template = require('./template');
+const { getInsights } = require('./middleware/symblAi');
 // const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 5000;
+require('dotenv').config();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // routes 
-const printPdf = async (req,res) => {
+const printPdf = async (req,res) => { 
     try{
         console.log('Starting: Generating PDF Process, Kindly wait ..');
         /** Launch a headleass browser */
@@ -19,7 +21,7 @@ const printPdf = async (req,res) => {
         /* 1- Ccreate a newPage() object. It is created in default browser context. */
         const page = await browser.newPage();
         /* 2- Will open our generated `.html` file in the new Page instance. */
-        await page.setContent(template(req.body))
+        await page.setContent(template(req.insight))
 
         let pdf = await page.pdf({
             format: "Tabloid",
@@ -45,7 +47,7 @@ const init = async (req,res) => {
 	try {
 		const pdf = await printPdf(req,res);
 		res.set({'Content-Type': 'application/pdf', 'Content-Length': pdf.length})
-        res.send(pdf)
+        res.json(pdf)
         // fs.writeFileSync('notes.pdf', pdf);
         // console.log('Success');
         // res.sendFile(`${__dirname}/notes.pdf`);
@@ -58,7 +60,7 @@ const init = async (req,res) => {
 };
 
 
-app.post('/create-pdf', init);
+app.post('/create-pdf', getInsights, init);
 
 // app.get('/fetch-pdf', (req,res) => {
 //     res.sendFile(`${__dirname}/notes.pdf`);
