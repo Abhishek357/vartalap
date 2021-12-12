@@ -12,6 +12,7 @@ function App() {
   const [stream, setStream] = useState();
   const [conversationId, setConversationId] = useState();
   const [accessToken, setaccessToken] = useState();
+  const [title, setTitle] = useState("Meeting Notes");
 
   const getToken = async () => {
     const res = await axios.get(`http://localhost:5000/getToken`);
@@ -30,7 +31,8 @@ function App() {
       headers: {
         Accept: "application/pdf",
       },
-      conversationId
+      conversationId,
+      title
     });
   }
   const savePDF = () => {
@@ -176,13 +178,24 @@ function App() {
     stream.getTracks().forEach(function(track) {
       track.stop();
     });
+    console.log(title)
     savePDF();
   };
 
   return (
+    
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+
+        <div className="mb-3 pt-0">
+          <input type="text" 
+            placeholder="Meeting Notes" className="px-3 py-3 text-black placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+
         <button
           className="justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           onClick={async (e) => {
