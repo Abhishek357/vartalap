@@ -39,8 +39,8 @@ module.exports = (meetingData) => {
   console.log(questionsString);
 
   let img = 'http://localhost:5000/normal.png';
-  if(polarity < -0.25) img = 'http://localhost:5000/angry.png'
-  else if(polarity > 0.25) img = 'http://localhost:5000/happy.png'
+  if(meetingData.polarity < -0.25) img = 'http://localhost:5000/angry.png'
+  else if(meetingData.polarity > 0.25) img = 'http://localhost:5000/happy.png'
   
   return `
     <!DOCTYPE html>
